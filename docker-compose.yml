@@ -82,3 +82,7 @@ services:
       - MYSQL_TABLE_PREFIX=${MYSQL_TABLE_PREFIX}
       - SITE_URL=${SITE_URL}
       - ENV_MODE=development
+
+networks:
+  default:
+    name: ${NETWORK_NAME:-gorodskie-bani-default}
