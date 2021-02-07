@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  nginx:
+    restart: always
+
+  php-fpm:
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+
+  mysql:
+    restart: always
+
+  front:
+    restart: always
+    environment:
+      - ENV_MODE=production
+    command: yarn start:prod

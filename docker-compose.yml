@@ -4,10 +4,8 @@ services:
   # web server
   nginx:
     image: nginx:latest
-    ports:
-      - "80:80"
-      - "443:443"
     volumes:
+      - ./log/nginx:/var/log/nginx
       # app
       - ./app/src:/usr/share/nginx/html
       - ./app/www:/www/
@@ -17,20 +15,24 @@ services:
       # certificates
       - ./nginx/ca/server.crt/:/etc/nginx/server.crt:ro
       - ./nginx/ca/server.key/:/etc/nginx/server.key:ro
-      # logs
-      - ./log/nginx:/var/log/nginx
 
   # php-fpm
   php-fpm:
     build: ./php-fpm
-    ports:
-      - "9000"
     volumes:
-      - ./app/src:/usr/share/nginx/html
+      - ./log/php-fpm:/var/log/php-fpm
       - ./app/www:/www/
       - ./php-fpm/php.ini:/usr/local/etc/php/php.ini:ro
-      # logs
-      - ./log/php-fpm:/var/log/php-fpm
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST:-mysql}
+      - MYSQL_USER=${MYSQL_USER:-root}
+      - MYSQL_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_TABLE_PREFIX=${MYSQL_TABLE_PREFIX}
+      - SITE_URL=${SITE_URL}
+      - CACHE_PREFIX=${CACHE_PREFIX}
+      - SITE_SESSIONNAME=${SITE_SESSIONNAME}
+      - UUID=${UUID}
 
   # database
   mysql:
@@ -55,3 +57,30 @@ services:
       UPLOAD_LIMIT: ${PMA_UPLOAD_LIMIT:-100M}
     ports:
       - "8090:80"
+
+
+  front:
+    tty: true
+    build:
+      context: ./app/www/gorodskie-bani.ru
+      # network: ${NETWORK_NAME:-prisma-cms-default}
+      args: 
+        - SITE=${SITE:-boilerplate}
+        - ROLE=FRONT
+        - ENV_MODE=development
+        - endpoint=${dev_endpoint}
+    # volumes:
+      # - schema:/www/${SITE:-boilerplate}/src/schema
+      # - shared:/www/${SITE:-boilerplate}/shared
+      # - ./prisma-cms/${SITE:-boilerplate}/shared:/www/${SITE:-boilerplate}/shared
+      # - ./prisma-cms/${SITE:-boilerplate}/uploads:/www/${SITE:-boilerplate}/uploads
+    env_file: 
+      - .env
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST:-mysql}
+      - MYSQL_USER=${MYSQL_USER:-root}
+      - MYSQL_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_TABLE_PREFIX=${MYSQL_TABLE_PREFIX}
+      - SITE_URL=${SITE_URL}
+      - ENV_MODE=development

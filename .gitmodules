@@ -1,0 +1,3 @@
+[submodule "app/www/gorodskie-bani.ru"]
+	path = app/www/gorodskie-bani.ru
+	url = https://github.com/Fi1osof/gorodskie-bani.ru.git

@@ -1,0 +1,34 @@
+version: "3.7"
+
+services:
+  nginx:
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app/src:/usr/share/nginx/html
+
+  php-fpm:
+    ports:
+      - "9000"
+    volumes:
+      - ./log/php-fpm:/var/log/php-fpm
+      - ./app/src:/usr/share/nginx/html
+
+  mysql:
+    ports:
+      # Allow client to access 3306
+      - "3306:3306"
+
+  pma:
+    ports:
+      - "8090:80"
+
+  front:
+    volumes:
+      - ./app/www/gorodskie-bani.ru/assets/components/modxsite/templates/v2.0/package.json:/www/${SITE:-boilerplate}/package.json
+      - ./app/www/gorodskie-bani.ru/assets/components/modxsite/templates/v2.0/internals:/www/${SITE:-boilerplate}/internals
+      - ./app/www/gorodskie-bani.ru/assets/components/modxsite/templates/v2.0/app:/www/${SITE:-boilerplate}/app
+      - ./app/www/gorodskie-bani.ru/assets/components/modxsite/templates/v2.0/server:/www/${SITE:-boilerplate}/server
+    # command: bash -c "yarn deploy && yarn start"
+    ports:
+      - 3400:3400
