@@ -9,7 +9,7 @@ services:
 
   php-fpm:
     ports:
-      - "9000"
+      - "9000:9000"
     volumes:
       - ./log/php-fpm:/var/log/php-fpm
       - ./app/src:/usr/share/nginx/html

@@ -37,9 +37,6 @@ services:
   # database
   mysql:
     image: mysql:5.7
-    ports:
-      # Allow client to access 3306
-      - "3306:3306"
     volumes:
       # NOTE: your data will be stored in ./mysql
       - ./mysql/data:/var/lib/mysql
@@ -52,7 +49,7 @@ services:
     env_file: 
       - .env
     environment:
-      PMA_HOST: mysql
+      PMA_HOST: ${MYSQL_HOST:-mysql}
       PMA_PORT: 3306
       UPLOAD_LIMIT: ${PMA_UPLOAD_LIMIT:-100M}
 
