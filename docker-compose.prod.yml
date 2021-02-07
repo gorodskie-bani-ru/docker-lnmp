@@ -6,15 +6,18 @@ services:
 
   php-fpm:
     restart: always
-    ports:
-      - "80:80"
-      - "443:443"
+    # ports:
+    #   - "80:80"
+    #   - "443:443"
 
   mysql:
     restart: always
 
   front:
     restart: always
+    build:
+      args: 
+        - ENV_MODE=production
     environment:
       - ENV_MODE=production
     command: yarn start:prod

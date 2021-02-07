@@ -3,7 +3,7 @@ version: "3.7"
 services:
   nginx:
     ports:
-      - "8080:80"
+      - "8082:80"
     volumes:
       - ./app/src:/usr/share/nginx/html
 
@@ -31,4 +31,4 @@ services:
       - ./app/www/gorodskie-bani.ru/assets/components/modxsite/templates/v2.0/server:/www/${SITE:-boilerplate}/server
     # command: bash -c "yarn deploy && yarn start"
     ports:
-      - 3400:3400
+      - 8400:3400
