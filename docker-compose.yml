@@ -93,6 +93,7 @@ services:
         - ENV_MODE=development
         - endpoint=${dev_endpoint}
         - API_ENDPOINT=${API_ENDPOINT}
+        - DATABASE_URL=${BANI_DATABASE_URL}
     volumes:
       - ./prisma-cms/${SITE:-boilerplate}/shared:/www/${SITE:-boilerplate}/shared
     #   - ./prisma-cms/${SITE:-boilerplate}/uploads:/www/${SITE:-boilerplate}/uploads
