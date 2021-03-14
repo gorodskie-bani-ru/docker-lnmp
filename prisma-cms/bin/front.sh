@@ -16,6 +16,8 @@ deploy-api-schema.sh
 
 if [ $ENV_MODE = "production" ] ; then
 
+  yarn prisma:migrate;
+  yarn generate:types;
   yarn build;
   # yarn react-scripts --max-old-space-size=3000 build
 

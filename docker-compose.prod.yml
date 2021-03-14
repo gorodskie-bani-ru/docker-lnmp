@@ -21,3 +21,13 @@ services:
     environment:
       - ENV_MODE=production
     command: yarn start:prod
+
+  nextjs:
+    restart: always
+    environment: 
+      ENV_MODE: production
+    build:
+      args: 
+        - ENV_MODE=production
+        - endpoint=${prod_endpoint}
+    command: bash -c "yarn start"
