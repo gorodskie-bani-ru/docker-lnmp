@@ -86,7 +86,7 @@ services:
     tty: true
     build:
       context: ./prisma-cms
-      network: ${NETWORK_NAME:-prisma-cms-default}
+      network: ${NETWORK_NAME:-gorodskie-bani-default}
       args: 
         - SITE=${SITE:-boilerplate}
         - ROLE=FRONT
