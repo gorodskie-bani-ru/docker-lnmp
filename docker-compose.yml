@@ -88,7 +88,7 @@ services:
       context: ./prisma-cms
       network: ${NETWORK_NAME:-prisma-cms-default}
       args: 
-        - SITE=gorodskie-bani-ru
+        - SITE=${SITE:-boilerplate}
         - ROLE=FRONT
         - ENV_MODE=development
         - endpoint=${dev_endpoint}
