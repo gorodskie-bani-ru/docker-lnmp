@@ -23,7 +23,7 @@ services:
     ports:
       - "8090:80"
 
-  front:
+  front_old:
     volumes:
       - ./app/www/gorodskie-bani.ru/assets/components/modxsite/templates/v2.0/package.json:/www/${SITE:-boilerplate}/package.json
       - ./app/www/gorodskie-bani.ru/assets/components/modxsite/templates/v2.0/internals:/www/${SITE:-boilerplate}/internals
@@ -33,3 +33,12 @@ services:
     command: yarn start
     ports:
       - 8400:3400
+
+  nextjs:
+    volumes:
+      - ./prisma-cms/${SITE:-boilerplate}/src:/www/${SITE:-boilerplate}/src
+      - ./prisma-cms/${SITE:-boilerplate}/server:/www/${SITE:-boilerplate}/server
+      - ./prisma-cms/${SITE:-boilerplate}/prisma:/www/${SITE:-boilerplate}/prisma
+    command: yarn dev
+    ports:
+      - 3000:3000

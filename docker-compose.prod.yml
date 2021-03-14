@@ -13,7 +13,7 @@ services:
   mysql:
     restart: always
 
-  front:
+  front_old:
     restart: always
     build:
       args: 

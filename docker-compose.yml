@@ -54,7 +54,8 @@ services:
       UPLOAD_LIMIT: ${PMA_UPLOAD_LIMIT:-100M}
 
 
-  front:
+  # @deprecated
+  front_old:
     tty: true
     build:
       context: ./app/www/gorodskie-bani.ru
@@ -78,6 +79,33 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_TABLE_PREFIX=${MYSQL_TABLE_PREFIX}
       - SITE_URL=${SITE_URL}
+      - ENV_MODE=development
+
+
+  nextjs:
+    tty: true
+    build:
+      context: ./prisma-cms
+      network: ${NETWORK_NAME:-prisma-cms-default}
+      args: 
+        - SITE=gorodskie-bani-ru
+        - ROLE=FRONT
+        - ENV_MODE=development
+        - endpoint=${dev_endpoint}
+        - API_ENDPOINT=${API_ENDPOINT}
+    volumes:
+      - ./prisma-cms/${SITE:-boilerplate}/shared:/www/${SITE:-boilerplate}/shared
+    #   - ./prisma-cms/${SITE:-boilerplate}/uploads:/www/${SITE:-boilerplate}/uploads
+    env_file: 
+      - .env
+    environment: 
+      # - API_ENDPOINT=${API_ENDPOINT:-http://api:4000}
+      # - MYSQL_HOST=${MYSQL_HOST:-mysql}
+      # - MYSQL_USER=${MYSQL_USER:-root}
+      # - MYSQL_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      # - MYSQL_DATABASE=${MYSQL_DATABASE}
+      # - MYSQL_TABLE_PREFIX=${MYSQL_TABLE_PREFIX}
+      - DATABASE_URL=${BANI_DATABASE_URL}
       - ENV_MODE=development
 
 networks:
