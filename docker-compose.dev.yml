@@ -30,5 +30,6 @@ services:
       - ./app/www/gorodskie-bani.ru/assets/components/modxsite/templates/v2.0/app:/www/${SITE:-boilerplate}/app
       - ./app/www/gorodskie-bani.ru/assets/components/modxsite/templates/v2.0/server:/www/${SITE:-boilerplate}/server
     # command: bash -c "yarn deploy && yarn start"
+    command: yarn start
     ports:
       - 8400:3400
