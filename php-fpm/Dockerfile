@@ -2,7 +2,7 @@
 # See: https://hub.docker.com/_/php/
 ######
 
-FROM php:7.0.5-fpm
+FROM php:7.1-fpm
 
 ######
 # You can install php extensions using docker-php-ext-install
@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
-        libpng12-dev \
+        libpng-dev \
         mc \
         wget \
         zip \

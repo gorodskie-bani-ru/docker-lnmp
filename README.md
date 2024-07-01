@@ -16,6 +16,14 @@ The whole app is divided into three Containers:
 
 Our app scripts are located on host, you can edit files directly without rebuilding/restarting whole images/containers.
 
+### set DOCKER_BUILDKIT=0
+
+https://github.com/moby/buildkit/issues/978#issuecomment-686420433
+
+```sh
+export DOCKER_BUILDKIT=0
+```
+
 ### Build and Run
 
 At first, you should have had [Docker](https://docs.docker.com) and [Docker Compose](https://docs.docker.com/compose) installed.
@@ -45,3 +53,9 @@ sndnvaps <sndnvaps@gmail.com>
 MIT
 
   [1]: architecture.png
+
+
+### Total
+
+front_old Не используется
+
