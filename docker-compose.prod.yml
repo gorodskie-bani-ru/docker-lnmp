@@ -2,19 +2,19 @@ version: "3.7"
 
 services:
   nginx:
-    restart: always
+    restart: unless-stopped
 
   php-fpm:
-    restart: always
+    restart: unless-stopped
     # ports:
     #   - "80:80"
     #   - "443:443"
 
   mysql:
-    restart: always
+    restart: unless-stopped
 
   front_old:
-    restart: always
+    restart: unless-stopped
     build:
       args: 
         - ENV_MODE=production
@@ -23,7 +23,7 @@ services:
     command: yarn start:prod
 
   nextjs:
-    restart: always
+    restart: unless-stopped
     environment: 
       ENV_MODE: production
     build:
