@@ -1,6 +1,10 @@
 version: "3.7"
 
 services:
+  proxy:
+    ports:
+      - 2015:2015
+
   nginx:
     ports:
       - "8082:80"

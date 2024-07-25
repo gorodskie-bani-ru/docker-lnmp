@@ -1,6 +1,14 @@
 version: "3.7"
 
 services:
+  proxy:
+    restart: unless-stopped
+    environment:
+      - ACME_AGREE=true
+    ports:
+      - 80:80
+      - 443:443
+
   nginx:
     restart: unless-stopped
 
@@ -16,7 +24,7 @@ services:
   front_old:
     restart: unless-stopped
     build:
-      args: 
+      args:
         - ENV_MODE=production
     environment:
       - ENV_MODE=production
@@ -24,10 +32,10 @@ services:
 
   nextjs:
     restart: unless-stopped
-    environment: 
+    environment:
       ENV_MODE: production
     build:
-      args: 
+      args:
         - ENV_MODE=production
         - endpoint=${prod_endpoint}
     command: bash -c "yarn start"

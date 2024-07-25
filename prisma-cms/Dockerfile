@@ -1,31 +1,61 @@
-FROM mhart/alpine-node:15 as build
+FROM node:20-bookworm as build
 
 ARG SITE=boilerplate
 
 ARG ROLE
 
-ARG endpoint
-ENV endpoint $endpoint
-
-ARG API_ENDPOINT
-ENV API_ENDPOINT $API_ENDPOINT
+ARG PWA
+ENV PWA $PWA
 
 ARG ENV_MODE
 ENV ENV_MODE $ENV_MODE
 
-ARG PUBLIC_URL
-ENV PUBLIC_URL $PUBLIC_URL
-
 ARG DATABASE_URL
 ENV DATABASE_URL $DATABASE_URL
 
-RUN apk add bash 
-RUN apk add mc 
-RUN apk add curl 
-RUN apk add python3 
-RUN apk add make 
-RUN apk add g++
-RUN apk add git
+ARG SUDO_PASSWORD
+ENV SUDO_PASSWORD $SUDO_PASSWORD
+
+RUN apt-get update
+
+RUN apt-get install -y bash 
+RUN apt-get install -y mc 
+RUN apt-get install -y curl 
+RUN apt-get install -y python3
+RUN apt-get install -y make 
+RUN apt-get install -y g++
+RUN apt-get install -y git 
+RUN apt-get install -y iputils-ping
+
+
+# FROM mhart/alpine-node:15 as build
+
+# ARG SITE=boilerplate
+
+# ARG ROLE
+
+# ARG endpoint
+# ENV endpoint $endpoint
+
+# ARG API_ENDPOINT
+# ENV API_ENDPOINT $API_ENDPOINT
+
+# ARG ENV_MODE
+# ENV ENV_MODE $ENV_MODE
+
+# ARG PUBLIC_URL
+# ENV PUBLIC_URL $PUBLIC_URL
+
+# ARG DATABASE_URL
+# ENV DATABASE_URL $DATABASE_URL
+
+# RUN apk add bash 
+# RUN apk add mc 
+# RUN apk add curl 
+# RUN apk add python3 
+# RUN apk add make 
+# RUN apk add g++
+# RUN apk add git
 
 # https://gist.github.com/alextanhongpin/aa55c082a47b9a1b0060a12d85ae7923
 # RUN apk --no-cache add ca-certificates wget && \
@@ -43,11 +73,13 @@ RUN apk add git
 
 WORKDIR /www/${SITE}/
 
-COPY ./${SITE} .
+COPY ./${SITE}/package.json ./${SITE}/package-lock.json ./
+RUN npm ci
 COPY ./bin/* /usr/bin/
+COPY ./${SITE} .
 
 # Установку зависимостей нельзя переносить в entrypoint,
 # потому что тот скрипт срабатывает уже тогда, когда контейнер создан и заменен имеющийся (если уже был запущен)
-RUN yarn install --ignore-engines
+RUN npm ci
 
 RUN if [ "$ROLE" = "FRONT" ] ; then echo Build front ; /usr/bin/front.sh ; fi
